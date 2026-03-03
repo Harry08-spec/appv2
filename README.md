@@ -10,12 +10,13 @@ Road map to my app
 - ~~Add styling~~
 - ~~Edit title of app in header~~
 - ~~Comment code in index~~
-- Get correct images
+- ~~Get correct images~~
 
-- Edit array to mimic the API pull from Pokeapi
-- split the URL returned by the array to get pokemon ID or put ID in array
-- put pokemon ID into new image url
-- TEST CODE 
+- ~~Edit array to mimic the API pull from Pokeapi~~
+- ~~split the URL returned by the array to get pokemon ID or put ID in array~~
+- ~~ put pokemon ID into new image url~~
+- ~~Started guess handler~~
+- ~~TEST CODE~~ 
 
 ## Useful Links
 - [Markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/)
