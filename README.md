@@ -17,6 +17,8 @@ Road map to my app
 - ~~ put pokemon ID into new image url~~
 - ~~Started guess handler~~
 - ~~TEST CODE~~ 
+- ~~made game work~~
+- ~~connect to API~~
 
 ## Useful Links
 - [Markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/)

@@ -1,5 +1,5 @@
 //import all required elements / items to use in code from various frameworks 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -17,7 +17,18 @@ const STARTING_POKEMON =[
 { name: "caterpie", url: "https://pokeapi.co/api/v2/pokemon/10/" },
 ]
 
+
+
+
 export default function Index() {
+  useEffect(()=>{
+    fetch("https://pokeapi.co/api/v2/pokemon/?limit=1028")
+    .then(res => res.json())
+    .then(data =>{
+      console.log(data.results);
+    });
+  },[]);
+
   //LOCKED TO 1 POKEMON FOR TESTING, ADD CHANGES OF POKEMON LATER
   //const ACTIVEPOKEMON = useState(STARTING_POKEMON[5]);
 
@@ -26,7 +37,7 @@ export default function Index() {
 const  rand = Math.floor(Math.random()*STARTING_POKEMON.length);
 
   const [ACTIVEPOKEMON] = useState(
-    STARTING_POKEMON[rand]
+  STARTING_POKEMON[rand]
   );
 const pokemonId = ACTIVEPOKEMON.url.split("/").filter(Boolean).pop();
 
@@ -34,21 +45,34 @@ const pokemonId = ACTIVEPOKEMON.url.split("/").filter(Boolean).pop();
 
 const [currentInput, setCurrentInput] = useState("");
 const [status, setStatus] = useState("Type your guess...");
-const [isRevealeed, setIsRevealed] = useState(false);
+const [isRevealed, setIsRevealed] = useState(false);
+const [silhouette, setSilhouette] = useState(true);
+const [guessHistory, setGuessHistory] =useState([]);
 
 const handleGuess = () =>{
+  if(currentInput.length===0) return;
+setGuessHistory([...guessHistory,currentInput]);
+setCurrentInput("");
+
+
 const userGuess = currentInput.toLowerCase().trim();
 const correctAnswer = ACTIVEPOKEMON.name.toLowerCase().trim();
 if ( userGuess === correctAnswer){
-alert("Correct! Well done");
+alert(`Correct! Well done, it's always ${ACTIVEPOKEMON.name} you have ${5- guessHistory.length} guesses left!`);
 setIsRevealed(true);
-}else{
-alert("Wrong! Please try again");
+setSilhouette(false);///////////////////
+}else if (guessHistory.length >=4){
+alert(`Wrong! it was ${ACTIVEPOKEMON.name}`);
 setIsRevealed(false);
+setSilhouette(false);////////////////////
+}else{
+  alert(`Wrong, try again you have ${4- guessHistory.length} guesses left`);
 }
 setCurrentInput("");
-}
 
+
+
+}
 
   //shows on screen
   return (
@@ -60,7 +84,10 @@ setCurrentInput("");
         source={{
           uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`
         }}
-        style={styles.pokeImg}
+        style={[styles.pokeImg,
+          silhouette ? {tintColor: "black"}:{tintColor:undefined}
+        ]}
+        //blurRadius={isRevealed ? 0 : 15}
         />
       <Text style={styles.pokemon}>{ACTIVEPOKEMON.name}</Text>
       <TextInput
